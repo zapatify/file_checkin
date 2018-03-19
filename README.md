@@ -27,7 +27,7 @@ If spaces are detected, the file is renamed to one without spaces. This is done 
 
 Next, the file type is checked against the ones to be parsed. Currently only `.csv` & `.txt` are parsed (more can be added).  
 
-The file is then read and parsed using the header row, and logged to the `cds_master_dev`.`file_checkin` table.  The following metadata is captured for each file:
+The file is then read and parsed using the header row, and logged to the `cds_master_dev`.`file_checkin` (scripts/create_file_checkin.sql) table.  The following metadata is captured for each file:
 ```
 name
 extension
@@ -46,6 +46,11 @@ created_by
 Once the header row is read and the columns retrieved, the CREATE table sql command string is created and the table is created using varchar(255) for the columns, and the file name as the table name.  (e.g. File: bioiq_importdata_20110101.csv, then table name: bioiq_importdata_20110101)  
 
 Once the table is created, the bulk load script is prepared and the data is loaded into the table. 
+
+## Summary
+If you place a file called "ingestion_file_1000.cv" (which contains a header row), the file will be read/parsed, the metadata captured and logged to a table called `cds_master_dev`.`file_checkin` (scripts/create_file_checkin.sql), a table created called "ingestion_file_1000", and the data from that file loaded into that table.  
+
+The data loads extremely quickly and is available in a table rather than a flat file.  
 
 
 ### TODO List
